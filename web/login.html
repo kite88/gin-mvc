@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>go-mvc</title>
+    <link rel="stylesheet" href="/static/css/login.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <div class="login-box">
+        <form>
+            <p>
+                <input type="text" v-model="username" placeholder="用户名">
+            </p>
+            <p>
+                <input type="password" v-model="password" placeholder="密码">
+            </p>
+            <p>
+                <input @click="submit" type="button" value="登录">
+            </p>
+        </form>
+    </div>
+</div>
+</body>
+<script src="/static/js/profile.js"></script>
+<script>
+    var profile = new Profile();
+    var app = new Vue({
+        el: '#app',
+        data: {
+            username: 'harden',
+            password: '123123',
+        },
+        created() {
+        },
+        mounted() {
+        },
+        methods: {
+            submit() {
+                axios({
+                    url: '/api/login',
+                    method: 'post',
+                    data: {
+                        username: this.username,
+                        password: this.password
+                    }
+                }).catch(function (err) {
+                    console.log(err)
+                }).then(res => {
+                    if (res.data.StatusCode === 0) {
+                        profile.save(res.data.Data)
+                        location.href = '/'
+                    } else {
+                        alert(res.data.Message)
+                    }
+                })
+            },
+        },
+    })
+</script>
+</html>

@@ -1,0 +1,35 @@
+body {
+    margin: 0px;
+    background: url(/static/img/bg.jpg) no-repeat;
+    background-size: 100% 100%;
+    background-attachment: fixed;
+}
+
+.login-box {
+    width: 400px;
+    height: 220px;
+    padding-top: 60px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    border: 1px solid #cccccc;
+}
+
+form {
+    text-align: center;
+}
+
+form input {
+    border-radius: 5px;
+    border: 0;
+    width: 250px;
+    height: 30px;
+    outline: none;
+}
+
+form input[type=submit]{
+    cursor: pointer;
+}

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>go-mvc</title>
+
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <div class="container">
+        <div class="row">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="javascript:">用户管理</a></li>
+                <li><a @click="logout" href="javascript:">退出登录</a></li>
+            </ul>
+        </div>
+        <div class="row">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>用户ID</th>
+                    <th>用户名</th>
+                    <th>创建时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                <template v-for="item in list">
+                    <tr>
+                        <td>{{item.id}}</td>
+                        <td>{{item.username}}</td>
+                        <td>{{item.create_time}}</td>
+                    </tr>
+                </template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/static/js/profile.js"></script>
+<script src="/static/js/date.util.js"></script>
+<script>
+    var profile = new Profile();
+    var dateUtil = new DateUtil();
+    var app = new Vue({
+        el: '#app',
+        data: {
+            list: []
+        },
+        created() {
+            this.getList()
+        },
+        mounted() {
+        },
+        methods: {
+            getList() {
+                axios({
+                    url: '/api/user',
+                    method: 'get',
+                    headers: {
+                        authorization: 'Bearer ' + profile.getToken()
+                    }
+                }).catch(function (err) {
+                    console.log(err)
+                }).then(res => {
+                    if (res.data.StatusCode === 0) {
+                        this.list = res.data.Data.map(v => {
+                            v.create_time = dateUtil.formatUnix(v.create_time)
+                            return v
+                        })
+                    } else {
+                        alert(res.data.Message)
+                    }
+                })
+            },
+            logout() {
+                axios({
+                    url: '/api/logout',
+                    method: 'post',
+                    headers: {
+                        authorization: 'Bearer ' + profile.getToken()
+                    }
+                }).catch(function (err) {
+                    console.log(err)
+                }).then(res => {
+                    if (res.data.StatusCode === 0) {
+                        profile.del()
+                        location.href = '/login'
+                    } else {
+                        alert(res.data.Message)
+                    }
+                })
+            }
+        },
+    })
+</script>
+</html>
