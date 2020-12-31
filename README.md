@@ -1,10 +1,10 @@
 目录结构  
 app //应用文件目录  
 ├── module //应用模块 示例  
-    ├── api  //控制器 中间件   
-    ├── dao  //DAO层  
-    ├── model //模型层  
-    ├── service // 服务层  
+    ├── ── api  //控制器 中间件   
+    ├── ── dao  //DAO层  
+    ├── ── model //模型层  
+    ├── ── service // 服务层  
 conf // 配置文件目录  
 ├── conf.go  
 db // 数据库连接文件目录  
