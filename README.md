@@ -22,6 +22,5 @@ test //测试文件目录
 web //静态页面目录
 ├── index.html
 main.go
-
 由于现在基本是前后端分离模式开发
 如果使用前端框架打包的文件 例如 vue框架直接把 index.html放在web里，然后static里的文件也放static里即可
